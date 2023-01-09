@@ -10,11 +10,11 @@ MAXLEN = 250 #Max length of the review
 BATCH_SIZE = 64 
 
 (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words = VOCAB_SIZE)
+
 #All Reviews are different length, but we need constant length to feed into the RNN
 #Pad each review so that a review > 250 words will have everything clipped after 250
 #And a review < 250 words will have necessary amounts of '0' added to it to make the review
 # of length 250
-
 train_data = pad_sequences(train_data, MAXLEN)
 test_data = pad_sequences(test_data, MAXLEN)
 

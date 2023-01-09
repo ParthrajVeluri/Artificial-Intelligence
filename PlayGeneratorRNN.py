@@ -54,15 +54,15 @@ BUFFER_SIZE = 10000
 
 data = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 
-def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
+def build_model(VOCAB_SIZE, EMBEDDING_DIM, RNN_UNITS, BATCH_SIZE):
   model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(vocab_size, embedding_dim,
-                              batch_input_shape=[batch_size, None]),
-    tf.keras.layers.LSTM(rnn_units,
+    tf.keras.layers.Embedding(VOCAB_SIZE, EMBEDDING_DIM,
+                              batch_input_shape=[BATCH_SIZE, None]),
+    tf.keras.layers.LSTM(RNN_UNITS,
                         return_sequences=True,
                         stateful=True,
                         recurrent_initializer='glorot_uniform'),
-    tf.keras.layers.Dense(vocab_size)
+    tf.keras.layers.Dense(VOCAB_SIZE)
   ])
   return model
 
@@ -100,7 +100,7 @@ checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
     save_weights_only=True)
 
 #history = model.fit(data, epochs=50, callbacks=[checkpoint_callback])
-model = build_model(VOCAB_SIZE, EMBEDDING_DIM, RNN_UNITS, batch_size=1)
+model = build_model(VOCAB_SIZE, EMBEDDING_DIM, RNN_UNITS, BATCH_SIZE=1)
 
 model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
 model.build(tf.TensorShape([1, None]))
